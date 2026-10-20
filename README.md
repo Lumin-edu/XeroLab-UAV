@@ -25,7 +25,7 @@ Key directories:
 ```text
 src/driver/          Livox driver
 src/perception/      Point-LIO and FAST-LIO
-src/control/         px4_msgs for PX4 1.14
+src/control/         px4_msgs and EGO trajectory messages
 src/planning/        EGO Planner
 src/up/              Hardware hover, waypoint, EGO and MPC bringups
 src/fastlio_bringup/ FAST-LIO + PX4 DDS position hold
@@ -40,7 +40,7 @@ source /opt/ros/humble/setup.bash
 rosdep install --from-paths \
   src/driver/livox_ros_driver2 \
   src/perception/Point-LIO \
-  src/control/px4_msgs \
+  src/control/px4_msgs src/control/quadrotor_msgs \
   src/planning/ego-planner-swarm/src/planner \
   src/up src/fastlio_bringup \
   --ignore-src --rosdistro humble -r -y
@@ -59,7 +59,7 @@ colcon build --symlink-install \
 source install/setup.bash
 ```
 
-The explicit base paths limit discovery to the hardware packages in this branch.
+The explicit base paths limit discovery to the hardware packages in this branch. The EGO Planner source retains its planner, trajectory-management and optional drone-detection packages; simulator nodes, simulator launch files and simulator support libraries have been removed.
 
 ## Hardware entry points
 
@@ -86,4 +86,4 @@ This workspace incorporates or adapts the open-source projects below. Refer to e
 | `px4_msgs` | PX4 uORB ROS 2 messages | [PX4/px4_msgs](https://github.com/PX4/px4_msgs) |
 | EGO Planner Swarm | Local trajectory planning | [ZJU-FAST-Lab/ego-planner-swarm](https://github.com/ZJU-FAST-Lab/ego-planner-swarm) |
 
-Upstream source keeps its original license and README. This project README follows GitHub's guidance for project overview, setup, usage and attribution: [About READMEs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes).
+Upstream licenses are preserved. Project-maintained guides follow GitHub's guidance for project overview, setup, usage and attribution: [About READMEs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes).

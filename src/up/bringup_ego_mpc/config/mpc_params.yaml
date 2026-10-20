@@ -1,4 +1,4 @@
-# Conservative default profile for bench and low-speed SITL validation.
+# Conservative default profile for bench and low-speed hardware validation.
 # Tune this file for the aircraft before enabling PX4 output.
 ego_mpc_controller:
   ros__parameters:

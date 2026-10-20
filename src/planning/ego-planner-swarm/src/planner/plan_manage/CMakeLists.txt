@@ -85,7 +85,7 @@ install(
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# 安装 launch 文件
+# Install hardware-compatible launch files
 install(
   DIRECTORY launch/
   DESTINATION share/${PROJECT_NAME}/launch
