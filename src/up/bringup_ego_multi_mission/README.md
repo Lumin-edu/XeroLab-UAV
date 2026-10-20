@@ -1,88 +1,21 @@
 # bringup_ego_multi_mission
 
-实机 EGO 多任务点启动包。它将已经验证过的单任务实机节点、配置和坐标
-补偿逻辑复制到本包内独立维护，不依赖 `hx_bringup_ego` 或
-`hx_bringup_pointlio_hover`，也不修改 Point-LIO 或 EGO 源码。
+基于 Point-LIO 与 EGO Planner 的实机多航点任务。路线由 `config/multi_waypoints.yaml` 定义；运行器逐点发布目标，到点并稳定后才继续。超时或里程计失效时停止路线。
 
-## 数据链路
+## 构建与检查
 
-```text
-MID-360 -> Point-LIO /odom + /cloud_registered
-         -> base_link(IMU) 到 base(机体中心)补偿
-         -> PX4 视觉里程计 + 高度融合
-         -> /ego/odom_fused + /ego/cloud_registered_fused
-         -> EGO 局部规划
-         -> /ego/position_cmd -> PX4 TrajectorySetpoint
-```
-
-本包不启动 Gazebo、仿真传感器、`scenario_map` 或静态 map，也不等待静态
-occupancy。EGO 仍然只使用实机 Point-LIO 的实时障碍点云，和已经验证的单
-任务实机模式一致。
-
-本包不启动单目标 `startup_goal.py`，由 `multi_waypoint_runner.py` 独占
-`/move_base_simple/goal`，每次只发布一个目标；只有当前目标位置、速度在
-容差内并稳定指定时间后才发布下一个目标。
-任意航点超时或里程计失效都会停止路线，不会跳过航点。
-
-## 航点格式
-
-默认文件为 `config/multi_waypoints.yaml`，坐标使用任务坐标系：
-
-```text
-x = 机体右侧，y = 机头前方，z = 向上
-```
-
-程序发布给 EGO 前转换为 Point-LIO ROS FLU：
-
-```text
-ros_x = task_y
-ros_y = -task_x
-ros_z = task_z
-ros_yaw = -task_yaw
-```
-
-`z` 与单任务模式一致，表示相对于起飞时捕获的 Point-LIO/PX4 原点的高度。
-请先在无桨环境检查航点、方向、限速和每个航点的超时设置，再进行飞行。
-
-## 构建
-
-```bash
-cd /home/wu/sim-ego/uav-mission-stack
+~~~bash
 source /opt/ros/humble/setup.bash
-colcon build --symlink-install --packages-select bringup_ego_multi_mission
+colcon build --symlink-install --packages-up-to bringup_ego_multi_mission
 source install/setup.bash
-```
-
-## 实机启动
-
-默认 `output_enabled:=false`、`auto_arm:=false`，用于先检查链路：
-
-```bash
 ros2 launch bringup_ego_multi_mission ego_multi_mission_hw.launch.py \
-  use_livox_driver:=false \
-  use_pointlio:=true \
-  hardware_confirmation:=ENABLE_PX4_OUTPUT \
-  auto_offboard:=true \
-  use_pointlio_px4_visual_odom:=true \
-  require_rangefinder_height:=false \
-  output_enabled:=true \
-  auto_arm:=false \
-  start_with_waypoints:=true
-```
+  use_livox_driver:=false use_pointlio:=true output_enabled:=false
+~~~
 
-确认 `/ego/odom_fused`、`/ego/cloud_registered_fused`、
-`/ego/height_fusion_healthy` 和 `/ego/position_cmd` 正常后，经过无桨检查再
-开启 PX4 输出：
+此模式用于确认传感器、融合里程计、点云和规划结果。路线 YAML 使用 `(右, 前, 上)` 坐标；节点发布前转换到 Point-LIO/EGO 的 FLU 坐标。
 
-```bash
-ros2 launch bringup_ego_multi_mission ego_multi_mission_hw.launch.py \
-  output_enabled:=true \
-  hardware_confirmation:=ENABLE_PX4_OUTPUT \
-  auto_arm:=false \
-  auto_offboard:=true \
-  route_file:=/path/to/your/route.yaml
-```
+## 控制输出
 
-可通过启动参数调整 `route_reach_xy`、`route_reach_z`、
-`route_settle_sec`、`route_waypoint_timeout_sec` 以及速度限制。修改航点时
-请复制并编辑本包的 YAML，而不是依赖仿真目录中的文件。
+launch 默认 `output_enabled:=false`、`auto_arm:=false`。只有完成无桨验证并检查 `/ego/odom_fused`、`/ego/cloud_registered_fused`、`/ego/position_cmd` 和 PX4 状态后，才显式打开 `output_enabled:=true` 并传入 `hardware_confirmation:=ENABLE_PX4_OUTPUT`。
+
+运行前编辑路线副本，核对区域、限速、到点容差和超时。一次只运行一个 Offboard 控制器。参数见 `launch/ego_multi_mission_hw.launch.py`。
