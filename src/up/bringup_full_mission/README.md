@@ -1,12 +1,12 @@
 # bringup_full_mission
 
-面向 PX4 DDS 的多任务航点控制器。Point-LIO 为 PX4 EKF2 提供外部视觉里程计；下视 D435i 可修正作业点，上视相机配置用于圆环横向校正。任务执行和执行器命令由 `full_mission_controller.py` 管理。
+Multi-task waypoint controller for PX4 DDS. Point-LIO provides external visual odometry to PX4 EKF2. A downward-facing D435i can correct work points; the upward-facing camera configuration supports lateral correction during ring traversal. `full_mission_controller.py` manages mission execution and actuator commands.
 
-## 构建与启动
+## Build and launch
 
-需要 ROS 2 Humble、PX4 1.14 对应的 `px4_msgs`、Point-LIO 和连接好的相机。
+Requires ROS 2 Humble, `px4_msgs` matching PX4 1.14, Point-LIO and connected cameras.
 
-~~~bash
+```bash
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install --packages-up-to bringup_full_mission
 source install/setup.bash
@@ -15,12 +15,12 @@ ros2 launch bringup_full_mission full_mission_hw.launch.py \
   use_px4_control_watchdog:=true auto_arm:=false \
   selected_tasks:=1,3,5,7 \
   drop_port:=/dev/ttyUSB0 approach_speed:=0.25
-~~~
+```
 
-默认由遥控器解锁。执行器命令 `drop_command` 默认为空；确认串口、脚本和无桨测试后，才显式传入命令路径。
+Manual arming is the default. The actuator command `drop_command` is empty by default; verify the serial port, command script and propeller-off behavior before setting it.
 
-## 任务与校正
+## Tasks and corrections
 
-航点坐标使用 `(右, 前, 上)`，原点与航向在启动时捕获。任务 1–5 可使用下视相机进行黑框水平校正；圆环阶段可使用前视相机校正横向位置。相机 namespace、序列号和修正阈值通过 launch 参数设置。
+Waypoint coordinates use `(right, forward, up)`, relative to the position and heading captured at startup. Tasks 1-5 can use the downward-facing camera for horizontal correction around black frames. The ring phase can use the forward-facing camera for lateral correction. Set camera namespaces, serial numbers and correction thresholds through launch arguments.
 
-PX4 local position 是控制反馈。检查 `/fmu/out/vehicle_local_position` 的有效标志以及视觉里程计、相机话题和 setpoint 频率。执行前核对 `selected_tasks`、相机序列号、`drop_command` 和串口设备；完整参数见 `launch/full_mission_hw.launch.py`。
+PX4 local position provides control feedback. Check the validity flags in `/fmu/out/vehicle_local_position`, along with visual odometry, camera topics and setpoint rate. Before running, verify `selected_tasks`, camera serial numbers, `drop_command` and the serial port. See `launch/full_mission_hw.launch.py` for all parameters.
