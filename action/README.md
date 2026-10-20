@@ -7,7 +7,7 @@ FAST-LIO -> SUPER -> /planning_cmd/poly_traj
                          -> action_controller -> /mavros/setpoint_raw/local
 ~~~
 
-This package requires ROS 2 Humble, MAVROS, Livox ROS Driver 2, FAST-LIO, and the external ROS packages `super_planner` and `mars_quadrotor_msgs`. The latter two are not included in this repository and must be provided by a sourced overlay.
+This package requires ROS 2 Humble, MAVROS, Livox ROS Driver 2, FAST-LIO, and the external ROS packages `super_planner` and `mars_quadrotor_msgs`. The latter two are not included in this repository and must be provided by a sourced overlay. The SUPER planner source is available at [hku-mars/SUPER](https://github.com/hku-mars/SUPER); the message package source depends on the external overlay used by your deployment.
 
 ## Build and launch
 
@@ -35,5 +35,5 @@ Only this controller should publish MAVROS setpoints while it is active. Validat
 
 ## Credits
 
-FAST-LIO, Livox ROS Driver 2 and MAVROS retain their upstream source, license and documentation. SUPER and `mars_quadrotor_msgs` are external dependencies; their source repository and license notices are not part of this checkout. See the branch README for the dependency list.
+FAST-LIO, Livox ROS Driver 2 and MAVROS retain their upstream source, license and documentation. SUPER and `mars_quadrotor_msgs` are external dependencies; their source repository and license notices are not part of this checkout. See the branch README for the dependency list and the [SUPER repository](https://github.com/hku-mars/SUPER) for its license and upstream documentation.
 

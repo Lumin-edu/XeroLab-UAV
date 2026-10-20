@@ -21,7 +21,7 @@ ros2 launch bringup_ego_mavros fixed_point_mavros.launch.py \
   auto_arm:=false auto_offboard:=true
 ~~~
 
-The launch starts Point-LIO and the vision bridge by default. Set `use_pointlio:=false` when Point-LIO is already running. Targets are offsets from the captured pose in `(right, forward, up)); MAVROS performs ENU/NED conversion.
+The launch starts Point-LIO and the vision bridge by default. Set `use_pointlio:=false` when Point-LIO is already running. Targets are offsets from the captured pose in `(right, forward, up)`; MAVROS performs ENU/NED conversion.
 
 ## Check
 

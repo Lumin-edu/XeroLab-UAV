@@ -28,7 +28,7 @@ colcon build --symlink-install \
 source install/setup.bash
 ~~~
 
-The `action` package also requires `super_planner` and `mars_quadrotor_msgs` from an external ROS 2 overlay. Those packages are not included here.
+The `action` package also requires `super_planner` and `mars_quadrotor_msgs` from an external ROS 2 overlay. Those packages are not included here. The SUPER planner source is available at [hku-mars/SUPER](https://github.com/hku-mars/SUPER); the message package must be supplied by the SUPER workspace or the deployment overlay used by your team.
 
 ## Start
 
@@ -48,6 +48,7 @@ Vendored localization and driver source retain their original licenses and docum
 | FAST-LIO | LiDAR-inertial localization | [hku-mars/FAST_LIO](https://github.com/hku-mars/FAST_LIO) |
 | Point-LIO | LiDAR-inertial localization | [HY-LiYihan/Point-LIO](https://github.com/HY-LiYihan/Point-LIO), originally [hku-mars/Point-LIO](https://github.com/hku-mars/Point-LIO) |
 | MAVROS | PX4/MAVLink ROS bridge | [mavlink/mavros](https://github.com/mavlink/mavros) |
+| SUPER | Polynomial trajectory planner | [hku-mars/SUPER](https://github.com/hku-mars/SUPER) |
 
-`action` depends on external `super_planner` and `mars_quadrotor_msgs` packages; their source is not vendored in this repository. Keep their upstream attribution and license notices with the external overlay.
+`action` depends on external `super_planner` and `mars_quadrotor_msgs` packages; their source is not vendored in this repository. Keep their upstream attribution and license notices with the external overlay. The `mars_quadrotor_msgs` repository was not identifiable from the public GitHub repository search at the time of writing, so the package name is documented without an invented URL.
 
