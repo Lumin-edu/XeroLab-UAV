@@ -40,4 +40,3 @@ Vendored source retains its upstream license and README.
 | MAVROS | PX4/MAVLink ROS bridge | [mavlink/mavros](https://github.com/mavlink/mavros) |
 
 This README follows GitHub's project overview, setup, use and attribution guidance: [About READMEs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes).
-

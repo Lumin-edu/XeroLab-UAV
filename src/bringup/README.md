@@ -58,4 +58,3 @@ rostopic echo /tag_drop_mission/mission_phase
 ~~~
 
 FAST-LIO, Livox and MAVROS source/license details are linked from the branch README.
-
