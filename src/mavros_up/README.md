@@ -33,4 +33,3 @@ ros2 topic echo /mavros/state --once
 ~~~
 
 Keep `auto_arm:=false` until local odometry and PX4 state are valid. Only one node should publish a setpoint. Parameters are declared in `launch/fixed_point_mavros.launch.py`.
-

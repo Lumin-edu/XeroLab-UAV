@@ -36,4 +36,3 @@ Only this controller should publish MAVROS setpoints while it is active. Validat
 ## Credits
 
 FAST-LIO, Livox ROS Driver 2 and MAVROS retain their upstream source, license and documentation. SUPER and `mars_quadrotor_msgs` are external dependencies; their source repository and license notices are not part of this checkout. See the branch README for the dependency list and the [SUPER repository](https://github.com/hku-mars/SUPER) for its license and upstream documentation.
-

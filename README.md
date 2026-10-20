@@ -51,4 +51,3 @@ Vendored localization and driver source retain their original licenses and docum
 | SUPER | Polynomial trajectory planner | [hku-mars/SUPER](https://github.com/hku-mars/SUPER) |
 
 `action` depends on external `super_planner` and `mars_quadrotor_msgs` packages; their source is not vendored in this repository. Keep their upstream attribution and license notices with the external overlay. The `mars_quadrotor_msgs` repository was not identifiable from the public GitHub repository search at the time of writing, so the package name is documented without an invented URL.
-

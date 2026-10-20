@@ -35,4 +35,3 @@ ros2 topic echo /mavros/state --once
 ~~~
 
 Keep `auto_arm:=false` until the estimator and MAVROS state are valid. Do not run another Offboard controller at the same time. See `launch/fixed_point_mavros.launch.py` and `config/` for parameters.
-
